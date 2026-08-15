@@ -1,30 +1,55 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ArrowLeft, ArrowRight, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { projects } from "@/config/portfolio";
+import { ProjectCard } from "./ProjectCard";
+
+const COUNT = projects.length;
+const REEL_COPIES = 3;
+const START_INDEX = COUNT;
+const reelSlides = Array.from({ length: REEL_COPIES }, (_, copy) =>
+  projects.map((project) => ({ project, copy })),
+).flat();
+
+const navButtonClass =
+  "flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-secondary/40 text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100";
 
 export function ProjectsCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: false,
-    containScroll: "trimSnaps",
+    startIndex: START_INDEX,
+    skipSnaps: false,
   });
   const [selected, setSelected] = useState(0);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(false);
 
-  const onSelect = useCallback(() => {
+  const syncIndex = useCallback(() => {
     if (!emblaApi) return;
-    setSelected(emblaApi.selectedScrollSnap());
-    setCanPrev(emblaApi.canScrollPrev());
-    setCanNext(emblaApi.canScrollNext());
+    setSelected(emblaApi.selectedScrollSnap() % COUNT);
+  }, [emblaApi]);
+
+  const wrapToMiddleCopy = useCallback(() => {
+    if (!emblaApi) return;
+    const snap = emblaApi.selectedScrollSnap();
+    if (snap < COUNT) {
+      emblaApi.scrollTo(snap + COUNT, true);
+    } else if (snap >= COUNT * 2) {
+      emblaApi.scrollTo(snap - COUNT, true);
+    }
   }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect).on("reInit", onSelect);
-  }, [emblaApi, onSelect]);
+    syncIndex();
+    emblaApi.on("select", syncIndex);
+    emblaApi.on("reInit", syncIndex);
+    emblaApi.on("settle", wrapToMiddleCopy);
+    return () => {
+      emblaApi.off("select", syncIndex);
+      emblaApi.off("reInit", syncIndex);
+      emblaApi.off("settle", wrapToMiddleCopy);
+    };
+  }, [emblaApi, syncIndex, wrapToMiddleCopy]);
 
   return (
     <section id="projetos" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
@@ -40,18 +65,16 @@ export function ProjectsCarousel() {
             <button
               type="button"
               onClick={() => emblaApi?.scrollPrev()}
-              disabled={!canPrev}
               aria-label="Projeto anterior"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-secondary/40 text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-95"
+              className={navButtonClass}
             >
               <ArrowLeft className="h-4 w-4" />
             </button>
             <button
               type="button"
               onClick={() => emblaApi?.scrollNext()}
-              disabled={!canNext}
               aria-label="Próximo projeto"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-secondary/40 text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-95"
+              className={navButtonClass}
             >
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -60,69 +83,19 @@ export function ProjectsCarousel() {
 
         <div className="mt-10 overflow-hidden" ref={emblaRef}>
           <ul className="flex touch-pan-y gap-6">
-            {projects.map((project, index) => (
-              <li
-                key={project.title}
-                className={`min-w-0 shrink-0 basis-[88%] transition-all duration-500 sm:basis-[65%] lg:basis-[46%] ${
-                  selected === index ? "opacity-100" : "opacity-55"
-                }`}
-              >
-                <article
-                  className={`glass-panel group flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ${
-                    selected === index
-                      ? "border-primary/40 shadow-[var(--glow-primary)]"
-                      : "hover:border-primary/25"
+            {reelSlides.map(({ project, copy }, index) => {
+              const isSelected = index % COUNT === selected;
+              return (
+                <li
+                  key={`${project.title}-${copy}`}
+                  className={`min-w-0 shrink-0 basis-[88%] sm:basis-[65%] lg:basis-[46%] ${
+                    isSelected ? "opacity-100" : "opacity-55"
                   }`}
                 >
-                  <div className="overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={`Capa do projeto ${project.title}`}
-                      loading="lazy"
-                      width={1200}
-                      height={800}
-                      className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="text-xl font-semibold">{project.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {project.description}
-                    </p>
-                    <ul className="mt-4 flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <li
-                          key={tech}
-                          className="rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs text-muted-foreground"
-                        >
-                          {tech}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-6 flex flex-wrap gap-3 pt-2">
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        Ver projeto
-                      </a>
-                      <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-95"
-                      >
-                        <Github className="h-4 w-4" />
-                        GitHub
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            ))}
+                  <ProjectCard project={project} isSelected={isSelected} />
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -131,10 +104,14 @@ export function ProjectsCarousel() {
             <button
               key={project.title}
               type="button"
-              onClick={() => emblaApi?.scrollTo(index)}
-              aria-label={`Ir para o projeto ${project.title}`}
-              aria-current={selected === index}
-              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+              onClick={() => emblaApi?.scrollTo(START_INDEX + index)}
+              aria-label={
+                project.upcoming
+                  ? "Ir para o projeto em construção"
+                  : `Ir para o projeto ${project.title}`
+              }
+              aria-current={selected === index ? "true" : undefined}
+              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none ${
                 selected === index ? "w-8 bg-primary" : "w-3 bg-border hover:bg-muted-foreground"
               }`}
             />

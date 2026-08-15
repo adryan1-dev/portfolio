@@ -11,5 +11,10 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // Prerender desabilitado: o preset Nitro/Cloudflare do Lovable não expõe dist/server/server.js
+    // que o plugin de prerender espera. SSR continua ativo em runtime.
+    prerender: {
+      enabled: false,
+    },
   },
 });
