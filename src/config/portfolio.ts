@@ -28,7 +28,7 @@ export const profile = {
 export const links = {
   email: "adryan1.dev@gmail.com",
   github: "https://github.com/adryan1-dev",
-  linkedin: "https://www.linkedin.com/in/adryanchaves",
+  linkedin: "https://www.linkedin.com/in/adryan1-dev",
   whatsapp: "https://wa.me/5533988285010",
 };
 
