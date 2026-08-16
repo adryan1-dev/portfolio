@@ -56,10 +56,7 @@ export function ProjectsCarousel() {
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
           <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
-              Portfólio
-            </p>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Projetos em destaque</h2>
+            <h2 className="text-3xl font-bold sm:text-4xl">Projetos em destaque</h2>
           </div>
           <div className="flex shrink-0 gap-2">
             <button
@@ -68,7 +65,7 @@ export function ProjectsCarousel() {
               aria-label="Projeto anterior"
               className={navButtonClass}
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
@@ -76,7 +73,7 @@ export function ProjectsCarousel() {
               aria-label="Próximo projeto"
               className={navButtonClass}
             >
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -99,7 +96,7 @@ export function ProjectsCarousel() {
           </ul>
         </div>
 
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="mt-8 flex justify-center gap-1">
           {projects.map((project, index) => (
             <button
               key={project.title}
@@ -111,10 +108,14 @@ export function ProjectsCarousel() {
                   : `Ir para o projeto ${project.title}`
               }
               aria-current={selected === index ? "true" : undefined}
-              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none ${
-                selected === index ? "w-8 bg-primary" : "w-3 bg-border hover:bg-muted-foreground"
-              }`}
-            />
+              className="group flex h-11 w-11 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <span
+                className={`h-1.5 rounded-full transition-all duration-300 motion-reduce:transition-none ${
+                  selected === index ? "w-8 bg-primary" : "w-3 bg-border group-hover:bg-muted-foreground"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

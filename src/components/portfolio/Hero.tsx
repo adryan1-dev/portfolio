@@ -20,13 +20,11 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div className="min-w-0">
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              {profile.greeting}
-            </p>
-            <h1 className="mt-4 text-4xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
+            <p className="text-sm text-muted-foreground">{profile.greeting}</p>
+            <h1 className="mt-3 text-4xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
               {profile.name}
             </h1>
-            <p className="mt-3 text-xl font-medium text-gradient sm:text-2xl">{profile.role}</p>
+            <p className="mt-3 text-xl font-medium text-primary sm:text-2xl">{profile.role}</p>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {profile.bio}
             </p>

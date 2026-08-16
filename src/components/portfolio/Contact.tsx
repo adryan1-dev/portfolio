@@ -18,10 +18,12 @@ export function Contact() {
                 href={href}
                 target={href.startsWith("mailto:") ? undefined : "_blank"}
                 rel="noreferrer noopener"
-                aria-label={label}
                 className="group flex h-20 w-20 flex-col items-center justify-center gap-1.5 rounded-2xl border border-border bg-secondary/40 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:shadow-[var(--glow-primary)] focus-visible:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 sm:h-24 sm:w-24"
               >
-                <Icon className="h-6 w-6 text-muted-foreground transition-colors duration-300 group-hover:text-primary sm:h-7 sm:w-7 motion-reduce:transition-none" />
+                <Icon
+                  className="h-6 w-6 text-muted-foreground transition-colors duration-300 group-hover:text-primary sm:h-7 sm:w-7 motion-reduce:transition-none"
+                  aria-hidden="true"
+                />
                 <span className="text-xs font-medium text-muted-foreground transition-colors duration-300 group-hover:text-foreground motion-reduce:transition-none">
                   {label}
                 </span>

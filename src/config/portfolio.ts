@@ -10,7 +10,8 @@ import { publicUrl } from "@/lib/urls";
 
 /** URL pública do site (canonical, OG, JSON-LD). Sobrescreva com VITE_SITE_URL. */
 export const siteUrl =
-  (import.meta.env.VITE_SITE_URL as string | undefined) ?? "https://adryanchaves.dev";
+  (import.meta.env.VITE_SITE_URL as string | undefined) ??
+  "https://adryan1-dev.github.io/portfolio";
 
 export const profile = {
   greeting: "Olá, eu sou",
@@ -26,10 +27,10 @@ export const profile = {
 };
 
 export const links = {
-  email: "adryanchaves@exemplo.com",
+  email: "adryan1.dev@gmail.com",
   github: "https://github.com/adryan1-dev",
   linkedin: "https://www.linkedin.com/in/adryanchaves",
-  whatsapp: "https://wa.me/5511999999999",
+  whatsapp: "https://wa.me/5533988285010",
 };
 
 export type Tech = { name: string; slug: string };
@@ -97,7 +98,7 @@ export const projects: Project[] = [
       "Caderno pessoal de leituras: catalogar o que você tem, organizar por status, avaliar, escrever resenhas e acompanhar o progresso — tudo em uma Estante simples.",
     image: lbookCover,
     technologies: ["React", "Node.js", "Express", "PostgreSQL"],
-    liveUrl: "https://adryan1-dev.github.io/lbook/",
+    liveUrl: "https://lbook-woad.vercel.app",
     repoUrl: "https://github.com/adryan1-dev/lbook",
   },
   {
