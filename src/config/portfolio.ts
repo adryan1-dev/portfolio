@@ -1,6 +1,7 @@
 import profilePhoto from "@/assets/profile.jpg";
 import deliverylensCover from "@/assets/deliverylens-cover.png";
 import lbookCover from "@/assets/lbook-cover.png";
+import { publicUrl } from "@/lib/urls";
 
 /**
  * Ponto único de configuração do portfólio.
@@ -19,7 +20,7 @@ export const profile = {
   photo: profilePhoto,
   photoAlt: "Retrato profissional de Adryan Chaves",
   /** Arquivo servido de public/assets/resume_082026.pdf (cópia em assets/ na raiz). */
-  cvUrl: "/assets/resume_082026.pdf",
+  cvUrl: publicUrl("assets/resume_082026.pdf"),
   cvAvailable: true,
   availability: "Disponível para oportunidades profissionais, projetos freelance e colaborações.",
 };
