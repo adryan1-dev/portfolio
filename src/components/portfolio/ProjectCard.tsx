@@ -15,26 +15,28 @@ export const ProjectCard = memo(function ProjectCard({ project, isSelected }: Pr
   if (project.upcoming) {
     return (
       <article
-        className={`glass-panel flex h-full min-h-[22rem] flex-col items-center justify-center overflow-hidden rounded-2xl border-dashed px-6 py-10 text-center transition-all duration-500 motion-reduce:transition-none ${
-          isSelected ? "border-primary/40 shadow-[var(--glow-primary)]" : "hover:border-primary/25"
+        className={`flex h-full min-h-[22rem] flex-col justify-center overflow-hidden rounded-2xl border border-dashed border-border bg-card px-6 py-10 motion-reduce:transition-none ${
+          isSelected ? "border-primary/50" : ""
         }`}
         aria-label="Projeto em construção"
       >
-        <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-secondary/40 text-primary">
-          <Construction className="h-8 w-8" aria-hidden="true" />
-        </span>
-        <h3 className="mt-6 text-xl font-semibold">{project.title}</h3>
-        <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
-          {project.description}
-        </p>
+        <div className="flex items-start gap-4">
+          <Construction className="mt-1 h-6 w-6 shrink-0 text-primary" aria-hidden="true" />
+          <div>
+            <h3 className="text-xl font-semibold">{project.title}</h3>
+            <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {project.description}
+            </p>
+          </div>
+        </div>
       </article>
     );
   }
 
   return (
     <article
-      className={`glass-panel group flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 motion-reduce:transition-none ${
-        isSelected ? "border-primary/40 shadow-[var(--glow-primary)]" : "hover:border-primary/25"
+      className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors duration-300 motion-reduce:transition-none ${
+        isSelected ? "border-primary/50" : "hover:border-primary/30"
       }`}
     >
       {project.image ? (

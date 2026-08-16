@@ -14,10 +14,9 @@ export const siteUrl =
   "https://adryan1-dev.github.io/portfolio";
 
 export const profile = {
-  greeting: "Olá, eu sou",
   name: "Adryan Chaves",
   role: "Full Stack Developer",
-  bio: "Desenvolvo aplicações web modernas de ponta a ponta — interfaces rápidas e acessíveis no front-end, APIs sólidas e bem estruturadas no back-end. Foco em código limpo, performance e soluções completas que resolvem problemas reais.",
+  bio: "Desenvolvo aplicações web de ponta a ponta: interfaces rápidas no front-end e APIs bem estruturadas no back-end, com atenção a código limpo e performance.",
   photo: profilePhoto,
   photoAlt: "Retrato profissional de Adryan Chaves",
   /** Arquivo servido de public/assets/resume_082026.pdf (cópia em assets/ na raiz). */
